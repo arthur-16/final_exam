@@ -8,12 +8,16 @@ export default class MovieCard extends MovieList {
     }
     render() {
         return (
-            <div className="card bg-info">
+            <div className="card" style={{ width: '18rem', height: '32rem', float: 'left' }}>
+                <img className="card-img-top" src={`${this.props.poster}`} alt="" />
                 <div className="card-body">
-                    <h5 className="card-title">{this.props.title}</h5>
-                    <p className="card-text">{this.props.content}</p>
+                    <h3 className="card-title">{this.props.title}</h3>
+                    <h5 className="card-text">{this.props.director}</h5>
+
                 </div>
             </div>
         )
     }
 };
+
+

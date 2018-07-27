@@ -4,72 +4,56 @@ import MovieForm from "./movieform";
 import MovieCard from "./moviecard";
 
 class Movies extends Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      movies: []
-    };
-  }
+        this.state = {
+            movies: []
 
-  componentDidMount() {
-    this.getMovies();
-  }
+        };
+    }
 
-  getMovies() {
-    fetch("/api/movies")
-      .then(response => {
-        return response.json();
-      })
-      .then(movies => {
-        console.log(movies);
+    componentDidMount() {
+        this.getmovies();
+    }
 
-        this.setState({
-          movies: movies
+    getMovies() {
+        fetch('/api/movies/')
+            .then((response) => {
+                return response.json();
+            }).then((movies) => {
+                console.log(movies);
+
+                this.setState({
+                    movies: movies
+                });
+            }).catch((err) => {
+                console.log(err);
+            });
+    }
+
+    addMovie(post) {
+        console.log(post);
+        fetch('/api/movies/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(post)
+        }).then(() => {
+            this.getMovies();
+        }).catch((err) => {
+            console.log(err);
         });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+    }
 
-  addMovie(post) {
-    console.log(post);
-    fetch("/api/movies", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(post)
-    })
-      .then(() => {
-        this.getMovies();
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
-  render() {
-    return (
-      <div className="container">
-        <div className="card">
-          <img className="card-img-top" src="" alt="Card image cap" />
-          <div className="card-body">
-            <h5 className="card-title">{this.title}</h5>
-            <p className="card-text">
-          
-            </p>
-            <a href="#" className="btn btn-primary">
-              Go somewhere
-            </a>
-          </div>
-        </div>
-        {/* {<MovieForm action="Create" postMovie={(post) => { this.addMovie(post); }} />
-        <MovieCard movies={this.state.movies} /> } */}
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div className="container">
+                <MovieForm action="Create" postMovie={(post) => { this.addMovie(post); }} />
+                <MovieList movies={this.state.movies} />
+            </div>
+        );
+    }
 }
-
 export default Movies;
